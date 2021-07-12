@@ -1,7 +1,32 @@
-import React from 'react'
-import {Link} from "react-router-dom"
+import React, { useState ,useEffect} from 'react'
+import { useDispatch ,useSelector} from 'react-redux';
+import {loginParent} from '../JS/actions/authAction'
+import { useHistory } from 'react-router-dom';
+import { getusers } from '../JS/actions/userAction';
 
-function Login() {
+const Login=()=> {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  useEffect(() => {
+    dispatch(getusers());
+  }, []);
+  const parents = useSelector((state) => state.userReducer.users);
+
+
+  const handleLogin = () => {
+    dispatch(loginParent({ email, password })); 
+    history.push('/parent-dashboard')
+    
+    // console.log(parents.find())
+    // if(parents.find(el=>el.email=email).role=='admin'){
+    //   history.push('/admin-dashboard')
+    // }   
+    ;
+    setEmail('');
+    setPassword('');
+  };
     return (
         <div className="row ">
 	        <div className="medium-12 columns">
@@ -13,7 +38,7 @@ function Login() {
                 <h2>Connection</h2>
                 <ul>
                   <li>
-                    <Link to='/'><a>Home</a></Link>
+                    <a href="index.html">Home</a>
                   </li>
                   <li>Connection</li>
                 </ul>
@@ -27,17 +52,17 @@ function Login() {
           <div className="login-form">
             <h2>Connection</h2>
             <form>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Nom d'utilisateur</label>
                 <input type="text" className="form-control" placeholder="Nom d'utilisateur" />
-              </div>
+              </div> */}
               <div className="form-group">
                 <label>Email</label>
-                <input type="text" className="form-control" placeholder="Email" />
+                <input type="text" className="form-control" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
               </div>
               <div className="form-group">
                 <label>Mot de passe</label>
-                <input type="text" className="form-control" placeholder="Mot de passe"/>
+                <input type="password" className="form-control" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)}/>
               </div>
               <div className="row align-items-center">
                 <div className="col-lg-6 col-md-6 col-sm-6">
@@ -50,7 +75,7 @@ function Login() {
                   <a href="#" className="lost-your-password">Mot de passe oublié ?</a>
                 </div>
               </div>
-              <button type="submit">Connection</button>
+              <button onClick={handleLogin}>Connection</button>
             </form>
             <div className="important-text">
               <p>Vous n'avez pas de compte? <a href="register.html">S’inscrire</a></p>

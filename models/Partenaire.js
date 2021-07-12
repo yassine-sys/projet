@@ -72,6 +72,10 @@ const partenaireSchema = new Schema({
     type:String,
     
   },
+  commentaires:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "Commentaire"
+}],
  
   role: {
     type: String,

@@ -1,13 +1,50 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
+import { Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {Link} from "react-router-dom"
 
+import { logout } from '../JS/actions/authAction';
+import authReducer from '../JS/reducer/authReducer';
+
+
 const NavBar = () =>  {
+  const dispatch = useDispatch();
+  //  const role = useSelector(state=>state.authReducer.user.role)
+  const isAuth = useSelector((state) => state.authReducer.isAuth);
+  const logoutParent = () => {
+    dispatch(logout());
+  };
+
+
+
+  const authLinks=(
+    <Fragment>
+    {/* <li className="nav-item">
+      <Link to={`/${role=='parent' ? 'parent' : 'partenaire'}-dashboard`}>
+        <a className="nav-link">
+          Dashboard-Partenaire
+        </a>
+        </Link>
+        </li> */}
+      
+      
+      
+      <li className="nav-item">
+      <Link to="#" onClick={logoutParent}>
+        <a className="nav-link">
+          Logout
+        </a>
+        </Link>  
+    </li>
+    
+    </Fragment>
+  );
 	    return (
 		<div className="row ">
 	      <div className="medium-12 columns">
                 
 
-        <div className="preloader">
+        {/* <div className="preloader">
           <div className="loader">
             <div className="wrapper">
               <div className="circle circle-1" />
@@ -16,7 +53,7 @@ const NavBar = () =>  {
               <div className="circle circle-3" />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="navbar-area">
           <div className="main-responsive-nav">
             <div className="container">
@@ -61,12 +98,15 @@ const NavBar = () =>  {
                       </a></Link>
                       
                     </li>
+                    
                     <li className="nav-item">
                       <Link to="/liste-clubs"><a className="nav-link">
                         Clubs
                       </a></Link>
                       
                     </li>
+                    {isAuth ? authLinks :(  
+                      <Fragment>
                     <li className="nav-item">
                       <a className="nav-link">
                         Parent
@@ -74,7 +114,7 @@ const NavBar = () =>  {
                       </a>
                       <ul className="dropdown-menu">
                         <li className="nav-item">
-                          <Link to='/se-connecter'><a className="nav-link">
+                          <Link to='/se-connecter-parent'><a className="nav-link">
                             Se connecter
                           </a></Link>
                         </li>
@@ -85,8 +125,10 @@ const NavBar = () =>  {
                         </li>
                       </ul>
                     </li>
-                      {/* ****** */}
+                    
+                     
                       
+                    
                     <li className="nav-item">
                       <a  className="nav-link">
                         Partenaire
@@ -94,7 +136,7 @@ const NavBar = () =>  {
                       </a>
                       <ul className="dropdown-menu">
                         <li className="nav-item">
-                          <Link to='/se-connecter'><a className="nav-link">
+                          <Link to='/se-connecter-partenaire'><a className="nav-link">
                             Se connecter
                           </a></Link>
                         </li>
@@ -105,7 +147,12 @@ const NavBar = () =>  {
                         </li>
                       </ul>
                     </li>
+                    </Fragment>
+                    
+                    )}
+                   
                   </ul>
+                    
                   <div className="others-options d-flex align-items-center">
                     <div className="option-item">
                       <div className="dropdown language-switcher d-inline-block">

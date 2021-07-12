@@ -9,8 +9,7 @@ const Home =()  =>{
   useEffect(() => {
     dispatch(getPartenaire());
   }, []);
-  const partenaires = useSelector((state) => state.partenaires);
-    
+  const partenaires = useSelector((state) => state.PartenaireReducer.partenaires);    
 	    return (
 		<div className="row ">
 	    <div className="medium-12 columns">
@@ -128,7 +127,7 @@ const Home =()  =>{
               <span>Nos Crèches</span>
             </div>
             <div className="row">
-                {partenaires.filter(partenaire=>partenaire.categorie=='creche')
+                {partenaires && partenaires.filter(partenaire=>partenaire.categorie=='creche')
                             .slice(0,3)
                             .map((partenaire) => (<Card key={partenaire._id} partenaire={partenaire} />
                             ))}
@@ -142,7 +141,7 @@ const Home =()  =>{
               {/* <h2>Latest News</h2> */}
             </div>
             <div className="row">
-                {partenaires.filter(partenaire=>partenaire.categorie=='jardin')
+                {partenaires && partenaires.filter(partenaire=>partenaire.categorie=='jardin')
                             .slice(0,3)
                             .map((partenaire) => (<Card key={partenaire._id} partenaire={partenaire} />
                             ))}
@@ -155,7 +154,7 @@ const Home =()  =>{
               {/* <h2>Latest News</h2> */}
             </div>
             <div className="row">
-                {partenaires.filter(partenaire=>partenaire.categorie=='ecole')
+                {partenaires && partenaires.filter(partenaire=>partenaire.categorie=='ecole')
                             .slice(0,3)
                             .map((partenaire) => (<Card key={partenaire._id} partenaire={partenaire} />
                             ))}
@@ -169,7 +168,7 @@ const Home =()  =>{
               {/* <h2>Latest News</h2> */}
             </div>
             <div className="row">
-                {partenaires.filter(partenaire=>partenaire.categorie=='club')
+                {partenaires && partenaires.filter(partenaire=>partenaire.categorie=='club')
                             .slice(0,3)
                             .map((partenaire) => (<Card key={partenaire._id} partenaire={partenaire} />
                             ))}

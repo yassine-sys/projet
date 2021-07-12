@@ -11,10 +11,10 @@ const CrecheList = () => {
       dispatch(getPartenaire());
     }, []);
     
-  const partenaires = useSelector((state) => state.partenaires);
-  const crecheFiltred = useSelector((state) => state.partenaires.filter(el=>el.categorie=='creche'));
-  console.log(partenaires)
-  console.log(crecheFiltred)
+    const partenaires = useSelector((state) => state.PartenaireReducer.partenaires);
+    const crecheFiltred = useSelector((state) => state.PartenaireReducer.partenaires.filter(el=>el.categorie=='creche'));
+  // console.log(partenaires)
+  // console.log(crecheFiltred)
 
 
 

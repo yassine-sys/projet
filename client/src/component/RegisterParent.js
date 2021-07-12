@@ -1,8 +1,24 @@
-import React from 'react'
-import {Link} from "react-router-dom"
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+
+import {registerParent} from '../JS/actions/authAction'
+
+const RegisterParent=()=> {
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
 
-function RegisterParent() {
+  const dispatch = useDispatch();
+  const handleRegister = () => {
+    const newUser = { name, lastName, email, password };
+    dispatch(registerParent(newUser));
+    setEmail('');
+    setName('');
+    setLastName('');
+    setPassword('');
+  };
     return (
         // <div className="row ">
 	    //     <div className="medium-12 columns">
@@ -16,7 +32,7 @@ function RegisterParent() {
                   <h2>S'inscrire</h2>
                   <ul>
                     <li>
-                      <Link to='/'><a>Home</a></Link>
+                      <a href="index.html">Home</a>
                     </li>
                     <li>S'inscrire</li>
                   </ul>
@@ -32,20 +48,20 @@ function RegisterParent() {
               <form>
                 <div className="form-group">
                   <label>Nom</label>
-                  <input type="text" className="form-control" placeholder="Nom" />
+                  <input type="text" className="form-control" placeholder="Nom" value={name} onChange={(e) => setName(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label>Prénom</label>
-                  <input type="text" className="form-control" placeholder="Prénom" />
+                  <input type="text" className="form-control" placeholder="Prénom" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 </div>
                 
                 <div className="form-group">
                   <label>Email</label>
-                  <input type="text" className="form-control" placeholder="Email" />
+                  <input type="email" className="form-control" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label>Mot de passe</label>
-                  <input type="text" className="form-control" placeholder="Mot de passe" />
+                  <input type="password" className="form-control" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </div>
                 <div className="row align-items-center">
                   <div className="col-lg-6 col-md-6 col-sm-6">
@@ -55,7 +71,7 @@ function RegisterParent() {
                     </div>
                   </div>
                 </div>
-                <button type="submit">S'inscrire maintenant</button>
+                <button onClick={handleRegister}>S'inscrire maintenant</button>
               </form>
               <div className="important-text">
                 <p>Vous êtes déjà inscrit? <a href="login.html">Se connecter!</a></p>

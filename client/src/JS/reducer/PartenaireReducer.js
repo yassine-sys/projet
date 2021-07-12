@@ -13,3 +13,4 @@ export const PartenaireReducer=(state=initState,action)=>{
 
     }
 } 
+export default PartenaireReducer

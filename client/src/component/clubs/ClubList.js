@@ -8,7 +8,7 @@ const ClubList = () => {
   useEffect(() => {
     dispatch(getPartenaire());
   }, []);
-  const partenaires = useSelector((state) => state.partenaires);
+  const partenaires = useSelector((state) => state.PartenaireReducer.partenaires);
   
   return (
     <div className="row ">

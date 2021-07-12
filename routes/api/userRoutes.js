@@ -17,6 +17,7 @@ const jwt = require('jsonwebtoken')
 const {validator,registerRules,loginRules} = require('../../middlewares/validator')
 
 const isAuth = require('../../middlewares/isAuth')
+const isAdmin = require('../../middlewares/isAdmin')
 
 
 //route post api/user/register
@@ -112,7 +113,7 @@ router.post('/login',loginRules(),validator , async (req,res)=>{
 //route get api/users/userlist
 // get user list
 // accces public
-router.get('/userlist',isAuth,async(req,res)=>{
+router.get('/userlist',async(req,res)=>{
     try {
         const user = await User.find();
         res.json({ msg: "userlist", user });
@@ -134,4 +135,11 @@ router.delete('/delete/:id',isAuth,async(req,res)=>{
       }
     },
 )
+
+//@route GET api/users/user
+//@desc Get authentified user
+//@access Private
+router.get('/user', isAuth, (req, res) => {
+    res.status(200).send({ user: req.user });
+  });
 module.exports = router
