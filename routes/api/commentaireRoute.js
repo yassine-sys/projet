@@ -7,15 +7,40 @@ const router = express.Router()
 
 const {commentRules} = require('../../middlewares/validator')
 const isAuth = require('../../middlewares/isAuth')
+const Partenaire = require('../../models/Partenaire')
+
+//route post api/commentaire/comment
+// ajouter commentaire
+// accces public
+router.post('/comment',commentRules(),isAuth,async(req,res)=>{
+    try {
+        const {contenu , dateOfCreation,partenaireId}=req.body
+        const partenaire = await Partenaire.findById(partenaireId)
+        if(!partenaire) return res.status(400).json({msg:'partenaire does not exist'})
+        const newComment = new Commentaire({user:req.user._id,contenu,dateOfCreation,partenaireId})
+        await Partenaire.findOneAndUpdate({_id:partenaireId},{
+            $push:{commentaires:newComment._id}
+        }, {new: true})
+        await newComment.save()
+
+            res.json({newComment})
+        
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
+        
+    }
+})
 
 //route post api/commentaire/add-comment
 // ajouter commentaire
 // accces public
 router.post('/add-comment',commentRules(),isAuth,async (req,res)=>{
 
-    const {contenu , dateOfCreation}=req.body
+    const {contenu , dateOfCreation,partenaireId}=req.body
     try {
-      const  commentaire=new Commentaire({contenu , dateOfCreation,userId: req.user._id})
+      const  commentaire=new Commentaire({contenu , dateOfCreation,
+        userId: req.user._id,
+        partenaireId})
         await commentaire.save()
         // await user.findOne({ _id: req.user._id }).populate('commentaire.userId')
         //  user.commentaires=[...user.commentaires,commentaire._id]

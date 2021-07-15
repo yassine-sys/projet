@@ -1,7 +1,15 @@
-import React, { Component,useEffect } from 'react';
+import React, { Component,useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPartenaire } from '../../JS/actions/partenaireAction';
+import { addComments, getComments } from '../../JS/actions/commentsAction';
+import Commentaire from '../Commentaire';
+import CommentaireList from '../CommentaireList';
+import CommentaireCard from '../CommentaireCard';
+
+
+
+
 
 const ClubDetail = (props) => {
             console.log(props.match.params.id)
@@ -11,11 +19,43 @@ const ClubDetail = (props) => {
     useEffect(() => {
       dispatch(getPartenaire());
     }, []);
-    // const partenaires = useSelector((state) => state.partenaires);
+    useEffect(()=>{
+        dispatch(getComments())
+    },[])
+
+    const commentaires = useSelector(state=>state.commentReducer.comments)
+    const partenaires = useSelector((state) => state.PartenaireReducer.partenaires);
+    console.log(partenaires)
 
   const clubFound= props.partenaires.filter(el=>el.categorie=='club').find(
         (club) => club._id==props.match.params.id
         );
+
+        const commentairesFound = props.partenaires.find(el=>el._id===props.match.params.id).commentaires
+        console.log(commentairesFound)
+
+      
+        //  const AddComment=()=> {
+          const isAuth = useSelector((state) => state.authReducer.isAuth);
+
+          // const [contenu, setContenu] = useState('');
+         
+        
+          // // const dispatch = useDispatch();
+          
+
+          // const handleComment = () => {
+
+          //   const newComment = { contenu };
+           
+          //   dispatch(addComments(newComment));
+          
+          
+          //   setContenu('');
+          
+          // }
+         
+        
       
   return (
     
@@ -27,12 +67,12 @@ const ClubDetail = (props) => {
             <div className="d-table-cell">
               <div className="container">
                 <div className="page-banner-content">
-                  <h2>{clubFound.partenaire_name}</h2>
+                  <h2>{clubFound && clubFound.partenaire_name}</h2>
                   <ul>
                     <li>
                       <Link strict to='home-page'><a>Home</a></Link>
                     </li>
-                    <li>{`Détails du ${clubFound.categorie}`} </li>
+                    <li>{`Détails du ${clubFound && clubFound.categorie}`} </li>
                   </ul>
                 </div>
               </div>
@@ -57,28 +97,28 @@ const ClubDetail = (props) => {
                   <ul>
                     <li>
                       <span>Le directeur/ice: </span>
-                      {clubFound.responsable_name}
+                      {clubFound && clubFound.responsable_name}
                     </li>
                     <li>
                       <span>Tel: </span>
-                      {clubFound.tel}
+                      {clubFound && clubFound.tel}
                     </li>
                     <li>
                       <span>Adresse: </span>
-                      {clubFound.adresse}
+                      {clubFound && clubFound.adresse}
                     </li>
                     <li>
                       <span>Ville: </span>
-                      {clubFound.ville}
+                      {clubFound && clubFound.ville}
                     </li>
                     <li>
                       <span>Code postale: </span>
-                      {clubFound.code_postal}
+                      {clubFound && clubFound.code_postal}
                     </li>
-                    <li>
+                    {/* <li>
                       <span>Siteweb: </span>
                       <a>{`www.${clubFound.partenaire_name}.com`}</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -174,7 +214,24 @@ const ClubDetail = (props) => {
             <span>Témoignages</span>
             <h2>Ce que les parents disent de nous</h2>
           </div>
-          <div className="testimonials-slides owl-carousel owl-theme">
+          <Commentaire/>
+          <CommentaireList />
+          {/* <div>
+          { commentaires.map(commentaire=>(<CommentaireCard key={commentaire._id} 
+          commentaire={commentaire}/>))}
+          </div> */}
+          {/* <CommentaireList /> */}
+          {/* {commentaires && commentaires.map((commentaire)=>(
+            <CommentaireCard key={commentaire._id} commentaire={commentaire} />))} */}
+          
+          {/* <div>
+          <label for="story"></label>
+          <textarea id="story" name="story" rows="5" cols="33" value={contenu} onChange={e=>setContenu(e.target.value)}>
+                    ajouter commentaire...
+                        </textarea>
+            <button onClick={handleComment}>ajouter </button>
+          </div> */}
+          {/* <div className="testimonials-slides owl-carousel owl-theme">
             <div className="testimonials-item">
               <div className="testimonials-item-box">
                 <div className="icon">
@@ -265,7 +322,7 @@ const ClubDetail = (props) => {
                 <img src="assets/img/testimonials/testimonials-3.png" alt="image" />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
       
@@ -338,6 +395,8 @@ const ClubDetail = (props) => {
       </div>
     </div>
     );
+  
 };
 
-export default ClubDetail;
+
+export default ClubDetail

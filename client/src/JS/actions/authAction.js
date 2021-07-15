@@ -155,7 +155,7 @@ export const getAuthParent = () => async (dispatch) => {
         'x-auth-token': localStorage.getItem('token'),
       },
     };
-    const res = await axios.get('http://localhost:5000/api/users/user', config);
+    const res = await axios.get('http://localhost:5000/api/users/user',config);
     dispatch({
       type: GET_AUTH_PARENT,
       payload: res.data, // {user: req.user}
@@ -173,3 +173,4 @@ export const logout = () => (dispatch) => {
     type: LOGOUT_PARENT,
   });
 };
+

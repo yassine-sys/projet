@@ -7,3 +7,15 @@ export const getPartenaire=()=>dispatch=>{
     .catch(err=>console.log(err))
 
 }
+
+export const editPartenaire = (idPartenaire, editedPartenaire) => (dispatch) => {
+    const config = {
+        headers: {
+          'x-auth-token': localStorage.getItem('token'),
+        },
+      };
+    axios
+      .put(`http://localhost:5000/api/partenaire/update/${idPartenaire}`, editedPartenaire,config)
+      .then((res) => dispatch(getPartenaire()))
+      .catch((err) => console.log(err));
+  };

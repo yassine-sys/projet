@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getPartenaire } from '../JS/actions/partenaireAction';
 import Card from './Card';
+import CommentaireList from './CommentaireList';
 
 const Home =()  =>{
 

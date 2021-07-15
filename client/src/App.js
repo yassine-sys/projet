@@ -70,6 +70,7 @@ const users = useSelector(state=>state.userReducer.users)
       <Route exact path="/se-connecter-partenaire" component={LoginPartenaire} />
       <Route path="/inscrire-parent" component={RegisterParent}/>
       <Route path="/inscrire-partenaire" component={RegisterPartenaire}/>
+      
 
 
       <Route path="/liste-crèches" component={CrecheList}/>
@@ -88,7 +89,8 @@ const users = useSelector(state=>state.userReducer.users)
         render={(props) => <EcoleDetail  {...props} partenaires = {partenaires} />}    />
       <Route path="/description/jardin/:id"
         render={(props) => <JardinDetail  {...props} partenaires = {partenaires} />}   />
-      <Route path="/description/club/:id"
+      <Route
+       path="/description/club/:id"
         render={(props) => <ClubDetail  {...props} partenaires = {partenaires}  />}     />
     
      {/* <Footer/> */}

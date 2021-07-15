@@ -3,20 +3,23 @@ import { useDispatch ,useSelector} from 'react-redux';
 import {loginParent} from '../JS/actions/authAction'
 import { useHistory } from 'react-router-dom';
 import { getusers } from '../JS/actions/userAction';
+import {getAuthParent} from '../JS/actions/authAction'
+
 
 const Login=()=> {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const getParent = () => dispatch(getAuthParent());
   useEffect(() => {
-    dispatch(getusers());
+    getParent();
   }, []);
-  const parents = useSelector((state) => state.userReducer.users);
-
-
   const handleLogin = () => {
     dispatch(loginParent({ email, password })); 
+   console.log(connecteduser)
+    
+    
     history.push('/parent-dashboard')
     
     // console.log(parents.find())
@@ -27,6 +30,10 @@ const Login=()=> {
     setEmail('');
     setPassword('');
   };
+  const connecteduser = useSelector((state) => state.authReducer.user);
+
+
+  
     return (
         <div className="row ">
 	        <div className="medium-12 columns">
